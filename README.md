@@ -1,6 +1,6 @@
 # 2D Wave Simulation on the GPU
 
-This repository contains a lightweight 2D wave simulator running on the GPU using CuPy library (probalby require NVIDIA GPU). It can be used for 2D light and sound simulations.
+This repository contains a lightweight 2D wave simulator running on the GPU using CuPy library (probably requires NVIDIA GPU). It can be used for 2D light and sound simulations.
 A simple visualizer shows the field and its intensity on the screen and writes a movie file for each to disks. 
 
 <div style="display: flex;">
