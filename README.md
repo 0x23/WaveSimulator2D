@@ -4,8 +4,8 @@ This repository contains a lightweight 2D wave simulator running on the GPU usin
 A simple visualizer shows the field and its intensity on the screen and writes a movie file for each to disks. 
 
 <div style="display: flex;">
-    <img src="images/example1.jpg" alt="Example Image 1" width="45%">
-    <img src="images/example2.jpg" alt="Example Image 2" width="45%">
+    <img src="images/example1.jpg" alt="Example Image 1" width="49%">
+    <img src="images/example2.jpg" alt="Example Image 2" width="49%">
 </div>
 
 ### Usage ###
