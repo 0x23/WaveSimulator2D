@@ -21,7 +21,7 @@ def load_scene_from_image(simulator, scene_image):
     simulator.set_sources(sources)
 
 
-def main(scene_image_fn, num_iterations):
+def main(scene_image_fn, num_iterations, simulation_steps_per_frame):
     scene_image = cv2.cvtColor(cv2.imread(scene_image_fn), cv2.COLOR_BGR2RGB)
 
     # create simulator and visualizer objects
@@ -44,7 +44,7 @@ def main(scene_image_fn, num_iterations):
         simulator.update_field()
         visualizer.update(simulator)
 
-        if i % 2 == 0:
+        if i % simulation_steps_per_frame == 0:
             frame_int = visualizer.render_intensity(1.25)
             frame_field = visualizer.render_field(0.7)
             cv2.imshow("Wave Simulation", frame_field)
@@ -54,4 +54,5 @@ def main(scene_image_fn, num_iterations):
 
 
 if __name__ == "__main__":
-    main("scene_lens_doubleslit.png", 10000)
+    # increase simulation_steps_per_frame to better utilize GPU
+    main("scene_lens_doubleslit.png", 10000, simulation_steps_per_frame=2)
