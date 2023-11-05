@@ -8,10 +8,12 @@ A simple visualizer shows the field and its intensity on the screen and writes a
     <img src="images/example2.jpg" alt="Example Image 2" width="45%">
 </div>
 
+### Usage ###
+
 The simulation scenes are given as an 8Bit RGB image with the following channel semantics:
-    - Red:   The Refractive index times 100 (for refractive index 1.5 you would use value 150)
-    - Green: Each pixel with a green value above 0 is a sinusoidal wave source. The green value defines its frequency.
-    - Blue:  Absorbtion field. Larger values correspnd to higher dampening of the wave, use graduated transitions to avoid reflections
+    * Red:   The Refractive index times 100 (for refractive index 1.5 you would use value 150)
+    * Green: Each pixel with a green value above 0 is a sinusoidal wave source. The green value defines its frequency.
+    * Blue:  Absorbtion field. Larger values correspnd to higher dampening of the wave, use graduated transitions to avoid reflections
 
 
 
