@@ -15,5 +15,17 @@ The simulation scenes are given as an 8Bit RGB image with the following channel 
 * Green: Each pixel with a green value above 0 is a sinusoidal wave source. The green value defines its frequency.
 * Blue:  Absorbtion field. Larger values correspond to higher dampening of the waves, use graduated transitions to avoid reflections
 
+### Recommended Installation ###
+
+1. Go [here](https://github.com/conda-forge/miniforge) and install miniforge/mamba, which is a python package manager.
+2. Start the mamba command prompt (under windows type 'Miniforge Prompt' in the start menu and you should find it).
+3. install the dependencies by running:
+   - **mamba install numpy, opencv, matplotlib, cupy**
+4. Run the program directly from the miniforge prompt (cd into the directory where you downloaded the Wave Simulator first):
+   python main.py
+6. Alternatively, you can run the program from an IDE like PyCharm (don't forget to configure the IDE to use the python interpreter from the mamba/miniforge install directory)
+
+
+
 
 
