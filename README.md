@@ -15,7 +15,7 @@ The simulation scenes are given as an 8Bit RGB image with the following channel 
 * Green: Each pixel with a green value above 0 is a sinusoidal wave source. The green value defines its frequency.
 * Blue:  Absorbtion field. Larger values correspond to higher dampening of the waves, use graduated transitions to avoid reflections
 
-WARNING: Do not use anti aliasing for the green channel ! The shades produced are interpreted as different source frequency which yields weird results.
+WARNING: Do not use anti-aliasing for the green channel ! The shades produced are interpreted as different source frequencies, which yields weird results.
 
 ### Recommended Installation ###
 
