@@ -17,6 +17,10 @@ The simulation scenes are given as an 8Bit RGB image with the following channel 
 
 WARNING: Do not use anti-aliasing for the green channel ! The shades produced are interpreted as different source frequencies, which yields weird results.
 
+<div style="display: flex;">
+    <img src="images/source_antialiasing.png" alt="Example Image 1" width="80%">
+</div>
+
 ### Recommended Installation ###
 
 1. Go [here](https://github.com/conda-forge/miniforge) and install miniforge/mamba, which is a python package manager.
