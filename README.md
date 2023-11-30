@@ -18,7 +18,7 @@ The simulation scenes are given as an 8Bit RGB image with the following channel 
 WARNING: Do not use anti-aliasing for the green channel ! The shades produced are interpreted as different source frequencies, which yields weird results.
 
 <div style="display: flex;">
-    <img src="images/source_antialiasing.png" alt="Example Image 1" width="80%">
+    <img src="images/source_antialiasing.png" alt="Example Image 1" width="50%">
 </div>
 
 ### Recommended Installation ###
