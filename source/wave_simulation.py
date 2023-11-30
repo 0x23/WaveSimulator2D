@@ -16,6 +16,9 @@ class WaveSimulator2D:
         @param h: Height of the simulation grid.
         """
         self.global_dampening = 1.0
+        self.source_opacity = 0.9       # opacity of source pixels to incoming waves. If the opacity is 0.0
+                                        # the field will be completely over written by the source term
+                                        # a nonzero value (e.g 0.5) allows for antialiasing of sources to work
 
         self.c = cp.ones((h, w), dtype=cp.float32)                      # wave speed field (from refractive indices)
         self.d = cp.ones((h, w), dtype=cp.float32)                      # dampening field
@@ -29,6 +32,10 @@ class WaveSimulator2D:
         self.laplacian_kernel = cp.array([[0.05, 0.2, 0.05],
                                           [0.2, -1.0, 0.2],
                                           [0.05, 0.2, 0.05]])
+
+        # self.laplacian_kernel = cp.array([[0.103, 0.147, 0.103],
+        #                                   [0.147, -1.0, 0.147],
+        #                                   [0.103, 0.147, 0.103]])
 
         self.t = 0
         self.dt = 1.0
@@ -98,13 +105,15 @@ class WaveSimulator2D:
         @param sources: An array of sources, where each source consists of 5 values: x, y, phase, amplitude, frequency.
         """
         assert sources.shape[1] == 5, 'sources must have shape Nx5'
-        self.sources = cp.array(sources)
+        self.sources = cp.array(sources).astype(cp.float32)
 
     def update_sources(self):
         """
         Update the sources in the simulation field based on their properties.
         """
-        v = np.sin(self.sources[:, 2]+self.sources[:, 4]*self.t)*self.sources[:, 3]
+        v = cp.sin(self.sources[:, 2]+self.sources[:, 4]*self.t)*self.sources[:, 3]
         coords = self.sources[:, 0:2].astype(cp.int32)
-        self.u[coords[:, 1], coords[:, 0]] = v
+
+        t = self.source_opacity
+        self.u[coords[:, 1], coords[:, 0]] = self.u[coords[:, 1], coords[:, 0]]*t + v*(1.0-t)
 

@@ -13,7 +13,7 @@ class WaveVisualizer:
         self.field_colormap = field_colormap
         self.intensity_colormap = intensity_colormap
         self.intensity = None
-        self.intensity_exp_average_factor = 0.99
+        self.intensity_exp_average_factor = 0.98
         self.field = None
 
     def update(self, wave_sim):
