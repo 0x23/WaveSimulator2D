@@ -31,21 +31,15 @@ def load_scene_from_image(simulator, scene_image, source_brightness_scale=1.0):
     simulator.set_sources(sources)
 
 
-def load_source_from_json(filename):
-    """
-    loads sources from json, this allows for better control over frequency, amplitude and phase
-    and avoids aliasing problems
-    """
-    # TODO: implement me
-
-def main(scene_image_fn, num_iterations, simulation_steps_per_frame, write_videos):
+def simulate(scene_image_fn, num_iterations,
+             simulation_steps_per_frame, write_videos,
+             field_colormap, intensity_colormap):
+    # load scene image
     scene_image = cv2.cvtColor(cv2.imread(scene_image_fn), cv2.COLOR_BGR2RGB)
 
     # create simulator and visualizer objects
-    # good colormaps for field: RdBu[invert=True], colormap_wave1, colormap_wave2, icefire
     simulator = sim.WaveSimulator2D(scene_image.shape[1], scene_image.shape[0])
-    visualizer = vis.WaveVisualizer(field_colormap=vis.get_colormap_lut('RdBu', invert=True),
-                                    intensity_colormap=vis.get_colormap_lut('afmhot', invert=False, black_level=0.1))
+    visualizer = vis.WaveVisualizer(field_colormap=field_colormap, intensity_colormap=intensity_colormap)
 
     # load scene from image file
     load_scene_from_image(simulator, scene_image)
@@ -79,4 +73,11 @@ def main(scene_image_fn, num_iterations, simulation_steps_per_frame, write_video
 
 if __name__ == "__main__":
     # increase simulation_steps_per_frame to better utilize GPU
-    main("../example_scenes/scene_lens_doubleslit.png", 10000, simulation_steps_per_frame=4, write_videos=False)
+    # good colormaps for field: RdBu[invert=True], colormap_wave1, colormap_wave2, icefire
+    simulate("../example_scenes/scene_lens_doubleslit.png",
+             10000,
+             simulation_steps_per_frame=4,
+             write_videos=False,
+             field_colormap=vis.get_colormap_lut('RdBu', invert=True),
+             intensity_colormap=vis.get_colormap_lut('afmhot', invert=False, black_level=0.1))
+
