@@ -20,8 +20,8 @@ They can be combined to build complex and time dependent simulations. The refact
     <img src="images/simulation_4.jpg" alt="Example Image 4" width="45%">
 </div>
 
-The old image based mechanism is still available as a scene object so that you can still use the convenience of an image editing software and create simulations
-with out much programming.
+The old image based scene description is still available as a scene object. You can continue to use the convenience of an image editing software and create simulations
+without much programming.
 
 ###  Image Scene Decsription Usage ###
 
