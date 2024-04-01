@@ -8,20 +8,20 @@ A simple visualizer shows the field and its intensity on the screen and writes a
     <img src="images/simulation_2.jpg" alt="Example Image 2" width="49%">
 </div>
 
-### Update
+### Update 1.04.2024
 
-* A new update with a more flexible scene description is now available. A simulation scene now consists of a list of objects that add their contribution to the fields.
+* Refactored the code to support a more flexible scene description. A simulation scene now consists of a list of objects that add their contribution to the fields.
 They can be combined to build complex and time dependent simulations. The refactoring also made the core simulation code even simpler.
 * Added a few new custom colormaps that work well for wave simulations.
-* Added new examples, which should make it easier to understnad the usage of the program and how you can setup your onw simulations.
+* Added new examples, which should make it easier to understand the usage of the program and how you can setup your own simulations: [examples](source/examples).
 
 <div style="display: flex;">
-    <img src="images/simulation_3.jpg" alt="Example Image 3" width="49%">
-    <img src="images/simulation_4.jpg" alt="Example Image 4" width="49%">
+    <img src="images/simulation_3.jpg" alt="Example Image 3" width="45%">
+    <img src="images/simulation_4.jpg" alt="Example Image 4" width="45%">
 </div>
 
-The old image based mechanism is still available as a scene object so that you can still use the convenience of an image editing software and create simulations
-with out much programming.
+The old image based scene description is still available as a scene object. You can continue to use the convenience of an image editing software and create simulations
+without much programming.
 
 ###  Image Scene Decsription Usage ###
 
