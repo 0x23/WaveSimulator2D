@@ -12,8 +12,8 @@ def build_scene():
     In this example, a new scene is created from scratch and a few emitters are places manually.
     One of the emitters uses an amplitude modulation object to change brightness over time
     """
-    width = 800
-    height = 800
+    width = 600
+    height = 600
     objects = []
 
     # Add a static dampening field without any dampending in the interior (value 1.0 means no dampening)
@@ -24,11 +24,11 @@ def build_scene():
     objects.append(StaticRefractiveIndex(np.full((height, width), 1.5)))
 
     # add a simple point source
-    objects.append(PointSource(200, 320, 0.2, 8))
+    objects.append(PointSource(200, 220, 0.2, 8))
 
     # add a point source with an amplitude modulator
     amplitude_modulator = ModulatorSmoothSquare(0.025, 0.0, smoothness=0.5)
-    objects.append(PointSource(200, 480, 0.2, 8, amp_modulator=amplitude_modulator))
+    objects.append(PointSource(200, 380, 0.2, 8, amp_modulator=amplitude_modulator))
 
     return objects, width, height
 
