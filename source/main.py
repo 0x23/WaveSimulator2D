@@ -1,65 +1,90 @@
+import wave_visualizer
 import wave_visualizer as vis
 import wave_simulation as sim
 import numpy as np
 import cv2
 import math
 import json
+from scene_objects.static_dampening import StaticDampening
+from scene_objects.static_refractive_index import StaticRefractiveIndex
+from scene_objects.static_image_scene import StaticImageScene
+from scene_objects.source import PointSource, ModulatorSmoothSquare, ModulatorDiscreteSignal
 
 
-def load_scene_from_image(simulator, scene_image, source_brightness_scale=1.0):
+def build_example_scene1(scene_image):
     """
-    load source from an image description
-    The simulation scenes are given as an 8Bit RGB image with the following channel semantics:
-        * Red:   The Refractive index times 100 (for refractive index 1.5 you would use value 150)
-        * Green: Each pixel with a green value above 0 is a sinusoidal wave source. The green value defines its frequency.
-                 WARNING: Do not use anti aliasing for the green channel !
-        * Blue:  Absorbtion field. Larger values correspond to higher dampening of the waves, use graduated transitions to avoid reflections
+    This example uses the old image scene description. See 'StaticImageScene' for more information.
     """
-    # set refractive index field
-    simulator.set_refractive_index_field(scene_image[:, :, 0]/100)
+    scene_objects = [StaticImageScene(scene_image)]
+    return scene_objects
 
-    # set absorber field
-    simulator.set_dampening_field(1.0-scene_image[:, :, 2]/255, 48)
 
-    # set sources
-    sources_pos = np.flip(np.argwhere(scene_image[:, :, 1] > 0), axis=1)
-    phase_amplitude_freq = np.tile(np.array([0, 1.0, 0.3]), (sources_pos.shape[0], 1))
-    sources = np.concatenate((sources_pos, phase_amplitude_freq), axis=1)
+def build_example_scene2(width, height):
+    """
+    In this example, a new scene is created from scratch and a few emitters are places manually.
+    One of the emitters uses an amplitude modulation object to change brightness over time
+    """
+    objects = []
 
-    sources[:, 4] = scene_image[sources_pos[:, 1], sources_pos[:, 0], 1]/255*0.5  # set frequency to channel value
+    # Add a static dampening field without any dampending in the interior (value 1.0 means no dampening)
+    # However a dampening layer at the border is added to avoid reflections (see parameter 'border thickness')
+    objects.append(StaticDampening(np.ones((height, width)), 48))
 
-    simulator.set_sources(sources)
+    # add a constant refractive index field
+    objects.append(StaticRefractiveIndex(np.full((height, width), 1.5)))
+
+    # add a simple point source
+    objects.append(PointSource(200, 250, 0.19, 5))
+
+    # add a point source with an amplitude modulator
+    amplitude_modulator = ModulatorDiscreteSignal(np.random.randint(2, size=64), 0.0006)
+    objects.append(PointSource(200, 350, 0.19, 5, amp_modulator=amplitude_modulator))
+
+    return objects
 
 
 def simulate(scene_image_fn, num_iterations,
              simulation_steps_per_frame, write_videos,
-             field_colormap, intensity_colormap):
+             field_colormap, intensity_colormap,
+             background_image_fn=None):
+    # reset random number generator
+    np.random.seed(0)
+
     # load scene image
     scene_image = cv2.cvtColor(cv2.imread(scene_image_fn), cv2.COLOR_BGR2RGB)
+
+    background_image = None
+    if background_image_fn is not None:
+        background_image = cv2.imread(background_image_fn)
+        background_image = cv2.resize(background_image, (scene_image.shape[1], scene_image.shape[0]))
 
     # create simulator and visualizer objects
     simulator = sim.WaveSimulator2D(scene_image.shape[1], scene_image.shape[0])
     visualizer = vis.WaveVisualizer(field_colormap=field_colormap, intensity_colormap=intensity_colormap)
 
-    # load scene from image file
-    load_scene_from_image(simulator, scene_image)
+    # build simulation scene
+    simulator.scene_objects = build_example_scene2(scene_image.shape[1], scene_image.shape[0])
 
     # create video writers
     if write_videos:
-        video_writer1 = cv2.VideoWriter('simulation_field.mp4', cv2.VideoWriter_fourcc(*'mp4v'),
+        video_writer1 = cv2.VideoWriter('simulation_field.avi', cv2.VideoWriter_fourcc(*'FFV1'),
                                        60, (scene_image.shape[1], scene_image.shape[0]))
-        video_writer2 = cv2.VideoWriter('simulation_intensity.mp4', cv2.VideoWriter_fourcc(*'mp4v'),
+        video_writer2 = cv2.VideoWriter('simulation_intensity.avi', cv2.VideoWriter_fourcc(*'FFV1'),
                                        60, (scene_image.shape[1], scene_image.shape[0]))
 
     # run simulation
     for i in range(num_iterations):
-        simulator.update_sources()
+        simulator.update_scene()
         simulator.update_field()
         visualizer.update(simulator)
 
         if i % simulation_steps_per_frame == 0:
             frame_int = visualizer.render_intensity(1.0)
-            frame_field = visualizer.render_field(0.7)
+            frame_field = visualizer.render_field(1.0)
+
+            if background_image is not None:
+                frame_int = cv2.add(background_image, frame_int)
+                frame_field = cv2.add(background_image, frame_field)
 
            # frame_int = cv2.pyrDown(frame_int)
            # frame_field = cv2.pyrDown(frame_field)
@@ -70,14 +95,19 @@ def simulate(scene_image_fn, num_iterations,
                 video_writer1.write(frame_field)
                 video_writer2.write(frame_int)
 
+        if i % 128 == 0:
+            print(f'{int((i+1)/num_iterations*100)}%')
+
 
 if __name__ == "__main__":
     # increase simulation_steps_per_frame to better utilize GPU
-    # good colormaps for field: RdBu[invert=True], colormap_wave1, colormap_wave2, icefire
-    simulate("../example_scenes/scene_lens_doubleslit.png",
-             10000,
-             simulation_steps_per_frame=4,
-             write_videos=False,
-             field_colormap=vis.get_colormap_lut('RdBu', invert=True),
-             intensity_colormap=vis.get_colormap_lut('afmhot', invert=False, black_level=0.1))
+    # good colormaps for field: RdBu[invert=True], colormap_wave1, colormap_wave2, colormap_wave4, icefire
+    simulate('../private/photonic_ic_phaseshifters.png',
+             20000,
+             simulation_steps_per_frame=16,
+             write_videos=True,
+             field_colormap=vis.get_colormap_lut('colormap_wave4', invert=False, black_level=-0.05),
+#             field_colormap=vis.get_colormap_lut('RdBu', invert=True, make_symmetric=True),
+             intensity_colormap=vis.get_colormap_lut('afmhot', invert=False, black_level=0.0),
+             background_image_fn='../private/photonic_ic_phaseshifters_bg.png')
 
