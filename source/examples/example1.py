@@ -23,7 +23,7 @@ def main():
     # Set scene image path. The image encodes refractive index, dampening and emitters in its color channels
     # see 'static_image_scene.StaticImageScene' class for a more detailed description.
     # please take a look at the image to understand what is happening in the simulation
-    scene_image_path = '../../example_data/scene_lens_doubleslit_lq.png'
+    scene_image_path = '../../example_data/scene_lens_doubleslit.png'
 
     # create colormaps
     field_colormap = vis.get_colormap_lut('colormap_wave1', invert=False, black_level=-0.05)
