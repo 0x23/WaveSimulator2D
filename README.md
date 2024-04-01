@@ -16,8 +16,8 @@ They can be combined to build complex and time dependent simulations. The refact
 * Added new examples, which should make it easier to understand the usage of the program and how you can setup your own simulations.
 
 <div style="display: flex;">
-    <img src="images/simulation_3.jpg" alt="Example Image 3" width="40%">
-    <img src="images/simulation_4.jpg" alt="Example Image 4" width="40%">
+    <img src="images/simulation_3.jpg" alt="Example Image 3" width="45%">
+    <img src="images/simulation_4.jpg" alt="Example Image 4" width="45%">
 </div>
 
 The old image based mechanism is still available as a scene object so that you can still use the convenience of an image editing software and create simulations
