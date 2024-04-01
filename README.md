@@ -13,7 +13,7 @@ A simple visualizer shows the field and its intensity on the screen and writes a
 * A new update with a more flexible scene description is now available. A simulation scene now consists of a list of objects that add their contribution to the fields.
 They can be combined to build complex and time dependent simulations. The refactoring also made the core simulation code even simpler.
 * Added a few new custom colormaps that work well for wave simulations.
-* Added new examples, which should make it easier to understnad the usage of the program and how you can setup your onw simulations.
+* Added new examples, which should make it easier to understand the usage of the program and how you can setup your own simulations.
 
 <div style="display: flex;">
     <img src="images/simulation_3.jpg" alt="Example Image 3" width="40%">
