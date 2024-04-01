@@ -8,7 +8,7 @@ A simple visualizer shows the field and its intensity on the screen and writes a
     <img src="images/simulation_2.jpg" alt="Example Image 2" width="49%">
 </div>
 
-### Update
+### Update 1.04.2024
 
 * A new update with a more flexible scene description is now available. A simulation scene now consists of a list of objects that add their contribution to the fields.
 They can be combined to build complex and time dependent simulations. The refactoring also made the core simulation code even simpler.
@@ -16,8 +16,8 @@ They can be combined to build complex and time dependent simulations. The refact
 * Added new examples, which should make it easier to understnad the usage of the program and how you can setup your onw simulations.
 
 <div style="display: flex;">
-    <img src="images/simulation_3.jpg" alt="Example Image 3" width="49%">
-    <img src="images/simulation_4.jpg" alt="Example Image 4" width="49%">
+    <img src="images/simulation_3.jpg" alt="Example Image 3" width="40%">
+    <img src="images/simulation_4.jpg" alt="Example Image 4" width="40%">
 </div>
 
 The old image based mechanism is still available as a scene object so that you can still use the convenience of an image editing software and create simulations
