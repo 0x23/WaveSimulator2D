@@ -13,22 +13,22 @@ def build_scene():
     One of the emitters uses an amplitude modulation object to change brightness over time
     """
     width = 800
-    height = 600
+    height = 800
     objects = []
 
     # Add a static dampening field without any dampending in the interior (value 1.0 means no dampening)
     # However a dampening layer at the border is added to avoid reflections (see parameter 'border thickness')
-    objects.append(StaticDampening(np.ones((height, width)), 48))
+    objects.append(StaticDampening(np.ones((height, width)), 32))
 
     # add a constant refractive index field
     objects.append(StaticRefractiveIndex(np.full((height, width), 1.5)))
 
     # add a simple point source
-    objects.append(PointSource(200, 280, 0.2, 5))
+    objects.append(PointSource(200, 320, 0.2, 8))
 
     # add a point source with an amplitude modulator
     amplitude_modulator = ModulatorSmoothSquare(0.025, 0.0, smoothness=0.5)
-    objects.append(PointSource(200, 380, 0.2, 5, amp_modulator=amplitude_modulator))
+    objects.append(PointSource(200, 480, 0.2, 8, amp_modulator=amplitude_modulator))
 
     return objects, width, height
 
