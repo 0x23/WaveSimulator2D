@@ -11,7 +11,7 @@ class StaticDampening(wave_simulation.SceneObject):
     def __init__(self, dampening_field, border_thickness):
         """
         Creates a static dampening field object
-        @param dampening_field: The dampening field. If None, a default dampening field is applied.
+        @param dampening_field: A NxM array with dampening factors (1.0 equals no dampening) of the same size as the simulation domain.
         @param pml_thickness: Thickness of the Perfectly Matched Layer (PML) at the boundaries to prevent reflections.
         """
         w = dampening_field.shape[1]
