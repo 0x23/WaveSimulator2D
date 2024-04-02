@@ -4,14 +4,16 @@ import cupy as cp
 
 class StaticRefractiveIndex(wave_simulation.SceneObject):
     """
-    Implements a static refractive index field that overwrites the entire domain.
-    Therefore, us this as base layer in your scene.
+    Implements a static refractive index field that overwrites the entire domain with a constant IOR value.
+    Use this as base layer in your scene.
     """
 
     def __init__(self, refractive_index_field):
         """
         Creates a static refractive index field object
-        @param refractive_index_field: The refractive index field.
+        :param refractive_index_field: The refractive index field, same size as the source.
+                                       Note that values below 0.9 are clipped to prevent the simulation
+                                       from becoming instable
         """
         shape = refractive_index_field.shape
         self.c = cp.ones((shape[0], shape[1]), dtype=cp.float32)
