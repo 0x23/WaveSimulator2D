@@ -7,7 +7,8 @@ from scene_objects.static_refractive_index import StaticRefractiveIndex
 
 class StaticImageScene(wave_simulation.SceneObject):
     """
-    Implements a point source scene object
+    Implements static scene, where the RGB channels of the input image encode the refractive index, the dampening and sources.
+    This class allows to use an image editor to create scenes.
     """
     def __init__(self, scene_image, source_amplitude=1.0, source_fequency_scale=1.0):
         """
