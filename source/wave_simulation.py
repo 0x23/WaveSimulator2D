@@ -41,9 +41,13 @@ class WaveSimulator2D:
         self.u_prev = cp.zeros((h, w), dtype=cp.float32)                # field values of prev frame
 
         # Define Laplacian kernel
-        self.laplacian_kernel = cp.array([[0.05, 0.2, 0.05],
-                                          [0.2, -1.0, 0.2],
-                                          [0.05, 0.2, 0.05]])
+        self.laplacian_kernel = cp.array([[0.066, 0.184, 0.066],
+                                          [0.184, -1.0, 0.184],
+                                          [0.066, 0.184, 0.066]])
+
+        # self.laplacian_kernel = cp.array([[0.05, 0.2, 0.05],
+        #                           [0.2, -1.0, 0.2],
+        #                           [0.05, 0.2, 0.05]])
 
         # self.laplacian_kernel = cp.array([[0.103, 0.147, 0.103],
         #                                   [0.147, -1.0, 0.147],
