@@ -102,12 +102,12 @@ def simulate(scene_image_fn, num_iterations,
 if __name__ == "__main__":
     # increase simulation_steps_per_frame to better utilize GPU
     # good colormaps for field: RdBu[invert=True], colormap_wave1, colormap_wave2, colormap_wave4, icefire
-    simulate('../private/photonic_ic_phaseshifters.png',
+    simulate('../exxample_data/scene_lens_doubleslit.png',
              20000,
              simulation_steps_per_frame=16,
              write_videos=True,
              field_colormap=vis.get_colormap_lut('colormap_wave4', invert=False, black_level=-0.05),
 #             field_colormap=vis.get_colormap_lut('RdBu', invert=True, make_symmetric=True),
              intensity_colormap=vis.get_colormap_lut('afmhot', invert=False, black_level=0.0),
-             background_image_fn='../private/photonic_ic_phaseshifters_bg.png')
+             background_image_fn=None)
 
