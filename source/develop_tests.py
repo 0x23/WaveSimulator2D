@@ -100,6 +100,9 @@ def simulate(scene_image_fn, num_iterations,
 
 
 if __name__ == "__main__":
+    print('This file contains tests for development and you may not bve able to run it without errors')
+    print('Please take a look at the previded examples')
+
     # increase simulation_steps_per_frame to better utilize GPU
     # good colormaps for field: RdBu[invert=True], colormap_wave1, colormap_wave2, colormap_wave4, icefire
     simulate('../exxample_data/scene_lens_doubleslit.png',
