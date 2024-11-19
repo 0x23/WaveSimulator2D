@@ -38,13 +38,11 @@ WARNING: Do not use anti-aliasing for the green channel ! The shades produced ar
 
 ### Recommended Installation ###
 
-1. Go [here](https://github.com/conda-forge/miniforge) and install miniforge/mamba, which is a python package manager.
-2. Start the mamba command prompt (under windows type 'Miniforge Prompt' in the start menu and you should find it).
-3. install the dependencies by running:
-   - **mamba install numpy, opencv, matplotlib, cupy**
-4. Run the program directly from the miniforge prompt (cd into the directory where you downloaded the Wave Simulator first):
-   python main.py
-6. Alternatively, you can run the program from an IDE like PyCharm (don't forget to configure the IDE to use the python interpreter from the mamba/miniforge install directory)
+1. Install Python and PyCharm IDE
+2. Clone the Project to you hard disk
+3. Open the folder as a Project using PyCharm
+4. If prompted to install requirements, accept (or install requirements using pip -r requirements.txt)
+5. Right click on one of the examples in wave_sim2d/examples and select run
 
 
 

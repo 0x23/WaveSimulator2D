@@ -1,8 +1,8 @@
-import wave_simulation
+from wave_sim2d.wave_simulation import SceneObject
 import cupy as cp
 
 
-class StaticDampening(wave_simulation.SceneObject):
+class StaticDampening(SceneObject):
     """
     Implements a static dampening field that overwrites the entire domain.
     Therefore, us this as base layer in your scene.
@@ -27,7 +27,7 @@ class StaticDampening(wave_simulation.SceneObject):
             self.d[i:h - i, i] = v
             self.d[i:h - i, -(1 + i)] = v
 
-    def render(self, wave_speed_field: cp.ndarray, dampening_field: cp.ndarray):
+    def render(self, field: cp.ndarray, wave_speed_field: cp.ndarray, dampening_field: cp.ndarray):
         assert (dampening_field.shape == self.d.shape)
 
         # overwrite existing dampening field

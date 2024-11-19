@@ -1,11 +1,12 @@
-import wave_simulation
+from wave_sim2d.wave_simulation import SceneObject
+
 import numpy as np
 import cupy as cp
-from scene_objects.static_dampening import StaticDampening
-from scene_objects.static_refractive_index import StaticRefractiveIndex
+from wave_sim2d.scene_objects.static_dampening import StaticDampening
+from wave_sim2d.scene_objects.static_refractive_index import StaticRefractiveIndex
 
 
-class StaticImageScene(wave_simulation.SceneObject):
+class StaticImageScene(SceneObject):
     """
     Implements static scene, where the RGB channels of the input image encode the refractive index, the dampening and sources.
     This class allows to use an image editor to create scenes.
@@ -41,7 +42,7 @@ class StaticImageScene(wave_simulation.SceneObject):
         self.sources[:, 4] = scene_image[sources_pos[:, 1], sources_pos[:, 0], 1] / 255 * 0.5 * source_fequency_scale
         self.sources = cp.array(self.sources).astype(cp.float32)
 
-    def render(self, wave_speed_field: cp.ndarray, dampening_field: cp.ndarray):
+    def render(self, field: cp.ndarray, wave_speed_field: cp.ndarray, dampening_field: cp.ndarray):
         """
         render the stat
         """

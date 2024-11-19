@@ -1,9 +1,9 @@
-import wave_simulation
+from wave_sim2d.wave_simulation import SceneObject
 import cupy as cp
 import math
 
 
-class PointSource(wave_simulation.SceneObject):
+class PointSource(SceneObject):
     """
     Implements a point source scene object. The amplitude can be optionally modulated using a modulator object.
     :param x: source position x.
@@ -25,7 +25,7 @@ class PointSource(wave_simulation.SceneObject):
     def set_amplitude_modulator(self, func):
         self.amplitude_modulator = func
 
-    def render(self, wave_speed_field, dampening_field):
+    def render(self, field: cp.ndarray, wave_speed_field: cp.ndarray, dampening_field: cp.ndarray):
         pass
 
     def update_field(self, field, t):

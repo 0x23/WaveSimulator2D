@@ -1,10 +1,14 @@
-import wave_visualizer as vis
-import wave_simulation as sim
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))  # noqa
+
 import numpy as np
 import cv2
-from scene_objects.static_dampening import StaticDampening
-from scene_objects.static_refractive_index import StaticRefractiveIndex
-from scene_objects.source import PointSource, ModulatorSmoothSquare
+import wave_sim2d.wave_visualizer as vis
+import wave_sim2d.wave_simulation as sim
+from wave_sim2d.scene_objects.static_dampening import StaticDampening
+from wave_sim2d.scene_objects.static_refractive_index import StaticRefractiveIndex
+from wave_sim2d.scene_objects.source import PointSource, ModulatorSmoothSquare
 
 
 def build_scene():

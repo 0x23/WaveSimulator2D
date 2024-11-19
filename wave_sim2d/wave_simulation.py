@@ -12,7 +12,7 @@ class SceneObject(ABC):
     simulated field and draw their contribution to the wave speed field and dampening field each frame """
 
     @abstractmethod
-    def render(self, wave_speed_field: cupy.ndarray, dampening_field: cupy.ndarray):
+    def render(self, field: cupy.ndarray, wave_speed_field: cupy.ndarray, dampening_field: cupy.ndarray):
         """ renders the scene objects contribution to the wave speed field and dampening field """
         pass
 
@@ -28,7 +28,7 @@ class WaveSimulator2D:
     The system assumes units, where the wave speed is 1.0 pixel/timestep
     source frequency should be adjusted accordingly
     """
-    def __init__(self, w, h, scene_objects):
+    def __init__(self, w, h, scene_objects, initial_field=None):
         """
         Initialize the 2D wave simulator.
         @param w: Width of the simulation grid.
@@ -39,6 +39,11 @@ class WaveSimulator2D:
         self.d = cp.ones((h, w), dtype=cp.float32)                      # dampening field
         self.u = cp.zeros((h, w), dtype=cp.float32)                     # field values
         self.u_prev = cp.zeros((h, w), dtype=cp.float32)                # field values of prev frame
+
+        if initial_field is not None:
+            assert w == initial_field.shape[1] and h == initial_field.shape[2], 'width/height of initial field invalid'
+            self.u[:] = initial_field
+            self.u_prev[:] = initial_field
 
         # Define Laplacian kernel
         self.laplacian_kernel = cp.array([[0.05, 0.2, 0.05],
@@ -82,7 +87,7 @@ class WaveSimulator2D:
         self.d.fill(1.0)
 
         for obj in self.scene_objects:
-            obj.render(self.c, self.d)
+            obj.render(self.u, self.c, self.d)
 
         for obj in self.scene_objects:
             obj.update_field(self.u, self.t)
