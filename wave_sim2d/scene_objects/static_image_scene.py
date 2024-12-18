@@ -46,8 +46,8 @@ class StaticImageScene(SceneObject):
         """
         render the stat
         """
-        self.dampening.render(wave_speed_field, dampening_field)
-        self.refractive_index.render(wave_speed_field, dampening_field)
+        self.dampening.render(field, wave_speed_field, dampening_field)
+        self.refractive_index.render(field, wave_speed_field, dampening_field)
 
     def update_field(self, field: cp.ndarray, t):
         # Update the sources in the simulation field based on their properties.
