@@ -28,6 +28,10 @@ class StaticRefractiveIndex(SceneObject):
     def update_field(self, field: cp.ndarray, t):
         pass
 
+    def render_visualization(self, image: np.ndarray):
+        """ renders a visualization of the scene object to the image """
+        pass
+
 
 class StaticRefractiveIndexPolygon(SceneObject):
     """
@@ -114,3 +118,53 @@ class StaticRefractiveIndexPolygon(SceneObject):
 
     def update_field(self, field: cp.ndarray, t):
         pass
+
+    def render_visualization(self, image: np.ndarray):
+        vertices = np.round(self.vertices).astype(np.int32)
+        cv2.fillPoly(image, [vertices], (60, 60, 60), lineType=cv2.LINE_AA)
+
+
+class StaticRefractiveIndexBox(StaticRefractiveIndexPolygon):
+    """
+    Draws a static rotated box with a given refractive index into the wave_speed_field by
+    inheriting from StaticRefractiveIndexPolygon.
+    """
+
+    def __init__(self, center: tuple, box_size: tuple, box_angle_rad: float, refractive_index: float):
+        """
+        Initializes the StaticRefractiveIndexBox.
+
+        Args:
+            center (tuple): A tuple (center_x, center_y) representing the box's center.
+            box_size (tuple): A tuple (width, height) representing the box's dimensions.
+            box_angle_rad (float): The rotation angle of the box in radians (counter-clockwise).
+            refractive_index (float): The refractive index of the box. Values are clamped to [0.9, 10.0].
+        """
+        self.center = center
+        self.box_size = box_size
+        self.box_angle_rad = box_angle_rad
+        refractive_index = min(max(refractive_index, 0.9), 10.0)
+
+        # Unpack center and box size
+        center_x, center_y = self.center
+        width, height = self.box_size
+
+        # Calculate the vertices of the rotated box
+        half_width = width / 2
+        half_height = height / 2
+        local_vertices = np.array([[-half_width, -half_height],
+                                   [half_width, -half_height],
+                                   [half_width, half_height],
+                                   [-half_width, half_height]], dtype=np.float32)
+
+        # Create the rotation matrix
+        rotation_matrix = cv2.getRotationMatrix2D((0, 0), np.rad2deg(self.box_angle_rad), 1)
+
+        # Rotate the local vertices
+        rotated_vertices = cv2.transform(np.array([local_vertices]), rotation_matrix)[0]
+
+        # Translate the rotated vertices to the center
+        translated_vertices = rotated_vertices + [center_x, center_y]
+
+        # Initialize the parent class (StaticRefractiveIndexPolygon) with the vertices
+        super().__init__(translated_vertices, refractive_index)

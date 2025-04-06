@@ -1,7 +1,7 @@
 from wave_sim2d.wave_simulation import SceneObject
 import cupy as cp
 import cupyx.scipy.signal
-
+import numpy as np
 
 class StrainRefractiveIndex(SceneObject):
     """
@@ -38,4 +38,6 @@ class StrainRefractiveIndex(SceneObject):
     def update_field(self, field: cp.ndarray, t):
         pass
 
-
+    def render_visualization(self, image: np.ndarray):
+        """ renders a visualization of the scene object to the image """
+        pass

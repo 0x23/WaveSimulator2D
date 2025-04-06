@@ -56,3 +56,7 @@ class StaticImageScene(SceneObject):
 
         o = self.source_opacity
         field[coords[:, 1], coords[:, 0]] = field[coords[:, 1], coords[:, 0]]*o + v*(1.0-o)
+
+    def render_visualization(self, image: np.ndarray):
+        """ renders a visualization of the scene object to the image """
+        pass

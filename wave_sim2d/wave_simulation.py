@@ -21,6 +21,11 @@ class SceneObject(ABC):
         """ performs updates to the field itself, e.g. for adding sources """
         pass
 
+    @abstractmethod
+    def render_visualization(self, image: np.ndarray):
+        """ renders a visualization of the scene object to the image """
+        pass
+
 
 class WaveSimulator2D:
     """
@@ -102,5 +107,15 @@ class WaveSimulator2D:
         @return: A 2D array representing the simulation field.
         """
         return self.u
+
+    def render_visualization(self, image=None):
+        # clear wave speed field and dampening field
+        if image is None:
+            image = np.zeros((self.c.shape[0], self.c.shape[1], 3), dtype=np.uint8)
+
+        for obj in self.scene_objects:
+            obj.render_visualization(image)
+
+        return image
 
 

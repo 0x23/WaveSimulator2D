@@ -1,5 +1,6 @@
 from wave_sim2d.wave_simulation import SceneObject
 import cupy as cp
+import numpy as np
 
 
 class StaticDampening(SceneObject):
@@ -36,4 +37,6 @@ class StaticDampening(SceneObject):
     def update_field(self, field: cp.ndarray, t):
         pass
 
-
+    def render_visualization(self, image: np.ndarray):
+        """ renders a visualization of the scene object to the image """
+        pass

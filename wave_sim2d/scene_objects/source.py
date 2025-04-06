@@ -38,6 +38,10 @@ class PointSource(SceneObject):
         v = cp.sin(self.phase + self.frequency * t) * amplitude
         field[self.y, self.x] = v
 
+    def render_visualization(self, image: np.ndarray):
+        """ renders a visualization of the scene object to the image """
+        pass
+
 
 class LineSource(SceneObject):
     """
@@ -94,7 +98,12 @@ class LineSource(SceneObject):
             valid_x_coords = x_coords[valid_indices]
             field[valid_y_coords, valid_x_coords] = v
 
+    def render_visualization(self, image: np.ndarray):
+        """ renders a visualization of the scene object to the image """
+        pass
+
 # --- Modulators -------------------------------------------------------------------------------------------------------
+
 
 class ModulatorSmoothSquare:
     """

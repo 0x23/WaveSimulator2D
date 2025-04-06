@@ -7,29 +7,29 @@ import numpy as np
 import cupy as cp
 import wave_sim2d.wave_visualizer as vis
 import wave_sim2d.wave_simulation as sim
-from wave_sim2d.scene_objects.source import PointSource, ModulatorDiscreteSignal
-from wave_sim2d.scene_objects.strain_refractive_index import StrainRefractiveIndex
-from wave_sim2d.scene_objects.static_dampening import StaticDampening
+from wave_sim2d.scene_objects.source import *
+from wave_sim2d.scene_objects.static_refractive_index import *
+from wave_sim2d.scene_objects.static_dampening import *
 
 
 def build_scene():
     """
-    This example creates the simplest possible simulation using a single emitter.
+    This example creates fabry pirot cavity and shows the standing waves
     """
-    width = 512
+    width = 768
     height = 512
     objects = []
 
-    # Add a static dampening field without any dampending in the interior (value 1.0 means no dampening)
+    # Add a static dampening field without any dampening in the interior (value 1.0 means no dampening)
     # However a dampening layer at the border is added to avoid reflections (see parameter 'border thickness')
     objects.append(StaticDampening(np.ones((height, width)), 48))
 
     # add nonlinear refractive index field
-    objects.append(StrainRefractiveIndex(1.5, 0.5))
+    objects.append(StaticRefractiveIndexBox((50, height//2), (50, int(height*0.8)), 0.0, 100.0))
+    objects.append(StaticRefractiveIndexBox((width-180, height//2), (40, int(height*0.8)), 0.0, 10.0))
 
     # add a point source with an amplitude modulator
-    amplitude_modulator = ModulatorDiscreteSignal([0, 1,]+[0,]*50, 0.01, transition_slope=1)
-    objects.append(PointSource(255, 255, 0.1, 5, amp_modulator=amplitude_modulator))
+    objects.append(LineSource((80, height//2-100), (80, height//2+100), 0.0395, 0.3))
 
     return objects, width, height
 
@@ -53,7 +53,7 @@ def main():
     visualizer = vis.WaveVisualizer(field_colormap=field_colormap, intensity_colormap=intensity_colormap)
 
     # run simulation
-    for i in range(1000):
+    for i in range(100000):
         simulator.update_scene()
         simulator.update_field()
         visualizer.update(simulator)
@@ -61,8 +61,6 @@ def main():
         # show field
         frame_field = visualizer.render_field(1.0)
         cv2.imshow("Wave Simulation Field", frame_field)
-
-        show_field(scene_objects[1].strain_field, 10.0)
 
         # show intensity
         # frame_int = visualizer.render_intensity(1.0)
