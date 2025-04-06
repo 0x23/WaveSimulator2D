@@ -29,7 +29,8 @@ def build_scene():
     objects.append(StaticRefractiveIndexBox((width-180, height//2), (40, int(height*0.8)), 0.0, 10.0))
 
     # add a point source with an amplitude modulator
-    objects.append(LineSource((80, height//2-100), (80, height//2+100), 0.0395, 0.4))
+    # objects.append(LineSource((77, height//2-140), (77, height//2+140), 0.0215, amplitude=0.5))
+    objects.append(LineSource((77, height//2-140), (77, height//2+140), 0.1003, amplitude=0.3))
 
     return objects, width, height
 
@@ -41,6 +42,9 @@ def show_field(field, brightness_scale):
 
 
 def main():
+    write_videos = False
+    write_video_frame_every = 2
+
     # create colormaps
     field_colormap = vis.get_colormap_lut('colormap_wave1', invert=False, black_level=-0.05)
     intensity_colormap = vis.get_colormap_lut('afmhot', invert=False, black_level=0.0)
@@ -52,19 +56,28 @@ def main():
     simulator = sim.WaveSimulator2D(w, h, scene_objects)
     visualizer = vis.WaveVisualizer(field_colormap=field_colormap, intensity_colormap=intensity_colormap)
 
+    # optional create video writers
+    if write_videos:
+        video_writer1 = cv2.VideoWriter('simulation_field.avi', cv2.VideoWriter_fourcc(*'FFV1'), 60, (w, h))
+        video_writer2 = cv2.VideoWriter('simulation_intensity.avi', cv2.VideoWriter_fourcc(*'FFV1'), 60, (w, h))
+
     # run simulation
     for i in range(100000):
         simulator.update_scene()
         simulator.update_field()
-        visualizer.update(simulator)
 
+        visualizer.update(simulator)
         # show field
         frame_field = visualizer.render_field(1.0)
         cv2.imshow("Wave Simulation Field", frame_field)
 
         # show intensity
-        # frame_int = visualizer.render_intensity(1.0)
+        frame_int = visualizer.render_intensity(1.0)
         # cv2.imshow("Wave Simulation Intensity", frame_int)
+
+        if write_videos and (i % write_video_frame_every) == 0:
+            video_writer1.write(frame_field)
+            video_writer2.write(frame_int)
 
         cv2.waitKey(1)
 
