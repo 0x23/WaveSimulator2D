@@ -17,6 +17,10 @@ A simple visualizer shows the field and its intensity on the screen and writes a
 * Added Refractive index Box object (StaticRefractiveIndexBox)
 * Fixed some issues with the examples
 
+<div style="display: flex;">
+    <img src="images/optical_cavity.jpg" alt="Example 4 - Optical Cavity with Standing Waves" width="50%">
+</div>
+
 ### Update 01.04.2024
 
 * Refactored the code to support a more flexible scene description. A simulation scene now consists of a list of objects that add their contribution to the fields.
