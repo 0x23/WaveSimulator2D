@@ -41,7 +41,7 @@ class MovingCharge(sim.SceneObject):
         # create a smooth source shape
         self.source_array = cp.array(gaussian_kernel(self.size, self.size/3))
 
-    def render(self, wave_speed_field, dampening_field):
+    def render(self, field, wave_speed_field, dampening_field):
         # no changes to the refractive index or dampening field required for this class
         pass
 

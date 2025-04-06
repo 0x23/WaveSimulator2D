@@ -5,8 +5,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../'))  # noqa
 import cv2
 import wave_sim2d.wave_visualizer as vis
 import wave_sim2d.wave_simulation as sim
-from wave_sim2d.scene_objects.source import PointSource
-
+from wave_sim2d.scene_objects.source import *
+from wave_sim2d.scene_objects.static_refractive_index import *
 
 def build_scene():
     """
@@ -15,6 +15,8 @@ def build_scene():
     width = 512
     height = 512
     objects = [PointSource(200, 256, 0.1, 5)]
+    # objects.append(StaticRefractiveIndexPolygon([[400, 255], [300, 200], [300, 300]], 1.5))
+    # objects = [LineSource((200, 265), (250, 105), 0.2, 0.5)]
 
     return objects, width, height
 

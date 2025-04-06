@@ -1,5 +1,6 @@
 from wave_sim2d.wave_simulation import SceneObject
 import cupy as cp
+import numpy as np
 import math
 
 
@@ -37,6 +38,61 @@ class PointSource(SceneObject):
         v = cp.sin(self.phase + self.frequency * t) * amplitude
         field[self.y, self.x] = v
 
+
+class LineSource(SceneObject):
+    """
+    Implements a line source scene object. The amplitude can be optionally modulated using a modulator object.
+    The source emits along a line defined by a start and end point.
+    :param start: starting (x, y) coordinates of the line as a tuple.
+    :param end: ending (x, y) coordinates of the line as a tuple.
+    :param frequency: emitting frequency.
+    :param amplitude: emitting amplitude, not used when an amplitude modulator is given
+    :param phase: emitter phase
+    :param amp_modulator: optional amplitude modulator. This can be used to change the amplitude of the source
+                          over time.
+    """
+    def __init__(self, start, end, frequency, amplitude=1.0, phase=0, amp_modulator=None):
+        self.start = start
+        self.end = end
+        self.frequency = frequency
+        self.amplitude = amplitude
+        self.phase = phase
+        self.amplitude_modulator = amp_modulator
+
+    def set_amplitude_modulator(self, func):
+        self.amplitude_modulator = func
+
+    def render(self, field: cp.ndarray, wave_speed_field: cp.ndarray, dampening_field: cp.ndarray):
+        pass
+
+    def update_field(self, field, t):
+        if self.amplitude_modulator is not None:
+            amplitude = self.amplitude_modulator(t) * self.amplitude
+        else:
+            amplitude = self.amplitude
+
+        v = cp.sin(self.phase + self.frequency * t) * amplitude
+
+        # Determine the points along the line using NumPy
+        x1, y1 = self.start
+        x2, y2 = self.end
+
+        distance = np.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+        num_points = int(distance) + 1
+
+        if num_points > 0:
+            x_coords = cp.linspace(x1, x2, num_points).round().astype(int)
+            y_coords = cp.linspace(y1, y2, num_points).round().astype(int)
+
+            # Create boolean masks for valid indices
+            valid_x = (x_coords >= 0) & (x_coords < field.shape[1])
+            valid_y = (y_coords >= 0) & (y_coords < field.shape[0])
+            valid_indices = valid_x & valid_y
+
+            # Use these valid indices to update the field directly
+            valid_y_coords = y_coords[valid_indices]
+            valid_x_coords = x_coords[valid_indices]
+            field[valid_y_coords, valid_x_coords] = v
 
 # --- Modulators -------------------------------------------------------------------------------------------------------
 
