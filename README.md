@@ -11,7 +11,8 @@ A simple visualizer shows the field and its intensity on the screen and writes a
 ### Update 06.04.2025
 
 * Added new Line Sources
-* Added Refractive index Polygon objects
+* Added Refractive index Polygon object (StaticRefractiveIndexPolygon)
+* Added Refractive index Box object (StaticRefractiveIndexBox)
 * Fixed some issues with the examples
 
 ### Update 01.04.2024
