@@ -29,7 +29,7 @@ def build_scene():
     objects.append(StaticRefractiveIndexBox((width-180, height//2), (40, int(height*0.8)), 0.0, 10.0))
 
     # add a point source with an amplitude modulator
-    objects.append(LineSource((80, height//2-100), (80, height//2+100), 0.0395, 0.3))
+    objects.append(LineSource((80, height//2-100), (80, height//2+100), 0.0395, 0.4))
 
     return objects, width, height
 
