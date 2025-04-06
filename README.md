@@ -10,6 +10,8 @@ A simple visualizer shows the field and its intensity on the screen and writes a
 
 ### Update 06.04.2025
 
+* Scene objects can now draw to a visualization layer !
+* Example4 now shows a two-mirror optical cavity and how standing waves emerge.
 * Added new Line Sources
 * Added Refractive index Polygon object (StaticRefractiveIndexPolygon)
 * Added Refractive index Box object (StaticRefractiveIndexBox)
