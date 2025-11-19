@@ -57,7 +57,11 @@ WARNING: Do not use anti-aliasing for the green channel ! The shades produced ar
 4. If prompted to install requirements, accept (or install requirements using pip -r requirements.txt)
 5. Right click on one of the examples in wave_sim2d/examples and select run
 
-
+NOTE: If you have issues installing the `cupy` library
+1. Make sure you have the `nvidia-cuda-toolkit` installed. 
+You can check it by running `nvcc --version`.
+1. In the *requirements.txt* file, replace `cupy` by `cupy-cuda[version-number]x`. 
+   Where the version number displayed when running `nvcc --version` (example: `cupy-cuda11x`).
 
 
 

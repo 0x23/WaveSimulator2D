@@ -45,6 +45,9 @@ class MovingCharge(sim.SceneObject):
         # no changes to the refractive index or dampening field required for this class
         pass
 
+    def render_visualization(self, image: np.ndarray):
+        pass
+
     def update_field(self, field, t):
         fade_in = math.sin(min(t*0.1, math.pi/2))
 
